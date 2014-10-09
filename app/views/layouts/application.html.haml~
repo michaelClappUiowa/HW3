@@ -1,0 +1,22 @@
+!!! 5
+%html
+	%head
+		%title Rotten Potatoes!
+		= stylesheet_link_tag 'application'
+		= javascript_include_tag 'application'
+		= csrf_meta_tags
+
+	%body
+		%h1.title Rotten Potatoes!
+		- if !@current_user
+			= button_to 'Sign up/Login', login_path,:method => :get
+		-else
+			#notice.message="You are logged in as #{User.find_by_session_token(session[:session_token]).user_id}"
+			= button_to 'Log Out', logout_path,:method => :delete
+		#main
+		- if flash[:notice]
+			#notice.message= flash[:notice]
+		- elsif flash[:warning]
+			#warning.message= flash[:warning]
+
+		= yield

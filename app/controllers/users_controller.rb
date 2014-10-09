@@ -1,0 +1,18 @@
+class UsersController < ApplicationController
+before_filter :set_current_user  
+def new
+    # default: render 'new' template
+  end
+
+  def create
+    if User.where(user_id: params[:user][:user_id]).empty?
+        @user = User.create_user!(params[:user])
+    	flash[:notice] = "Welcome #{@user.user_id}. Your account was successfully created."
+    	redirect_to login_path
+    else
+    	flash[:notice] = "Sorry, this user-id is taken. Try again."
+	redirect_to new_user_path
+    end	
+  end
+
+end
